@@ -6,6 +6,10 @@ if "task_list" not in st.session_state:
     st.session_state.task_list = []
 task_list = st.session_state.task_list
 
+if "quote" not in st.session_state:
+    api_key = st.secrets["quotes_api"]["api_key"]
+    st.session_state.quote = generate_quote(api_key)
+
 def add_task(task_name: str):
     task_list.append(Task(task_name))
 
@@ -23,7 +27,7 @@ with st.sidebar:
     if st.button("Add task", type="primary"):
         add_task(task)
 
-st.info(generate_quote("ma7lo5Jgt3YpPVl0/mnRGw==qKEXW1tayeTQYFlc"))
+st.info(st.session_state.quote)
 
 total_tasks = len(task_list)
 completed_tasks = sum(1 for task in task_list if task.is_done)
